@@ -29,46 +29,48 @@ static inline int is_promisc(u16 cdc_filter)
 #ifdef NCM_WITH_TIMER
 static void tx_complete_ncm_timer(struct usb_ep *ep, struct usb_request *req)
 {
-	struct eth_dev	*dev = ep->driver_data;
-	int pkts_compl;
+    struct eth_dev *dev = ep->driver_data;
+    int pkts_compl;
 
-	switch (req->status) {
-	default:
-		dev->net->stats.tx_errors++;
-		VDBG(dev, "tx err %d\n", req->status);
+    switch (req->status) {
+        default:
+            dev->net->stats.tx_errors++;
+            VDBG(dev, "tx err %d\n", req->status);
 #ifdef CONFIG_USB_NCM_SUPPORT_MTU_CHANGE
-		printk(KERN_ERR"usb:%s tx err %d\n", __func__, req->status);
+            printk(KERN_ERR "usb:%s tx err %d\n", __func__, req->status);
 #endif
-		/* FALLTHROUGH */
-	case -ECONNRESET:		/* unlink */
-	case -ESHUTDOWN:		/* disconnect etc */
-		break;
-	case 0:
-		if (!req->zero && !dev->zlp)
-			dev->net->stats.tx_bytes += req->length-1;
-		else
-			dev->net->stats.tx_bytes += req->length;
+            /* FALLTHROUGH */
+        case -ECONNRESET: /* unlink */
+        case -ESHUTDOWN: /* disconnect etc */
+            break;
+        case 0:
+            if (!req->zero && !dev->zlp)
+                dev->net->stats.tx_bytes += req->length - 1;
+            else
+                dev->net->stats.tx_bytes += req->length;
 
-		if (skb)
-			dev_consume_skb_any(skb);
-	}
-	dev->net->stats.tx_packets++;
+            if (req->context)
+                dev_consume_skb_any((struct sk_buff *)req->context);
+            break;
+    }
+    dev->net->stats.tx_packets++;
 
-	pkts_compl = dev->port_usb->multi_pkt_xfer ? dev->dl_max_pkts_per_xfer : 1;
-	netdev_completed_queue(dev->net, pkts_compl, req->length);
+    pkts_compl = dev->port_usb->multi_pkt_xfer ? dev->dl_max_pkts_per_xfer : 1;
+    netdev_completed_queue(dev->net, pkts_compl, req->length);
 
-	spin_lock(&dev->tx_req_lock);
+    spin_lock(&dev->tx_req_lock);
 
-	req->length = 0;
-	list_add_tail(&req->list, &dev->tx_reqs);
+    req->length = 0;
+    list_add_tail(&req->list, &dev->tx_reqs);
 
-	spin_unlock(&dev->tx_req_lock);
+    spin_unlock(&dev->tx_req_lock);
 
-	atomic_dec(&dev->tx_qlen);
+    atomic_dec(&dev->tx_qlen);
 
-	if (netif_carrier_ok(dev->net))
-		netif_wake_queue(dev->net);
+    if (netif_carrier_ok(dev->net))
+        netif_wake_queue(dev->net);
 }
+
 
 static int tx_task_ncm(struct eth_dev *dev, struct usb_request *req)
 {

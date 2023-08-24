@@ -700,6 +700,7 @@ done_error:
 
 static void get_bluetooth_address(uint32_t *lap, uint8_t *uap, uint16_t *nap)
 {
+
 #ifdef SCSC_BT_ADDR
 	struct firmware *firm;
 #endif

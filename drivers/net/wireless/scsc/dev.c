@@ -542,13 +542,13 @@ err_p2px_wlan_registered:
 	rcu_assign_pointer(sdev->netdev_ap, NULL);
 #endif
 #endif
-
+#ifndef CONFIG_SCSC_WLAN_STA_ONLY
 err_p2p_registered:
 	slsi_netif_remove(sdev, sdev->netdev[SLSI_NET_INDEX_P2P]);
 
 err_wlan_registered:
 	slsi_netif_remove(sdev, sdev->netdev[SLSI_NET_INDEX_WLAN]);
-
+#endif
 err_inetaddr_registered:
 	unregister_inetaddr_notifier(&sdev->inetaddr_notifier);
 #if IS_ENABLED(CONFIG_IPV6)

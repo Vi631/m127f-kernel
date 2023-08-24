@@ -81,11 +81,10 @@ then
 fi
 
 DEFCONFIG="exynos850-m12nsxx${separator}${1}_defconfig"
-
 echo
 echo "Configuring with defconfig: $DEFCONFIG"
 printf "===========================%${#DEFCONFIG}s\n" | tr " " "="
-makecmd "$DEFCONFIG"
+make ARCH=arm64 defconfig "$DEFCONFIG"
 echo
 echo Building the kernel:
 echo ====================
