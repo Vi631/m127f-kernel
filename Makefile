@@ -320,9 +320,9 @@ include scripts/subarch.include
 # Default value for CROSS_COMPILE is not to prefix executables
 # Note: Some architectures assign CROSS_COMPILE in their arch/*/Makefile
 ARCH        ?=arm64
-CROSS_COMPILE   ?= $(srctree)/toolchain/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/bin/aarch64-linux-androidkernel-
+#CROSS_COMPILE   ?= $(srctree)/toolchain/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/bin/aarch64-linux-androidkernel-
 # Location to clang toolchain
-CLANG_PATH ?= $(srctree)/toolchain/clang/host/linux-x86/clang-r353983c/bin/
+#CLANG_PATH ?= $(srctree)/toolchain/clang/host/linux-x86/clang-r353983c/bin/
 
 # Architecture as present in compile.h
 UTS_MACHINE 	:= $(ARCH)
