@@ -182,7 +182,7 @@ static void slsi_bt_open_worker(struct work_struct *work)
 		}
 
 		hdev->bus = HCI_VIRTUAL;
-		hdev->dev_type = HCI_BREDR;
+		hdev->dev_type = HCI_PRIMARY;
 
 		SET_HCIDEV_DEV(hdev, dev_ref);
 

@@ -702,7 +702,7 @@ static void get_bluetooth_address(uint32_t *lap, uint8_t *uap, uint16_t *nap)
 {
 
 #ifdef SCSC_BT_ADDR
-	struct firmware *firm;
+	const struct firmware *firm;
 #endif
 #if defined(CONFIG_ARCH_EXYNOS) || defined(CONFIG_ARCH_EXYNOS9)
 	*nap = (exynos_soc_info.unique_id & 0x000000FFFF00) >> 8;
@@ -722,8 +722,7 @@ static void get_bluetooth_address(uint32_t *lap, uint8_t *uap, uint16_t *nap)
 	SCSC_TAG_DEBUG(BT_COMMON,
 		"loading Bluetooth address configuration file: "
 		SCSC_BT_ADDR "\n");
-	err = mx140_request_file(common_service.maxwell_core, SCSC_BT_ADDR, &firm);
-	if (err) {
+	if (mx140_request_file(common_service.maxwell_core, SCSC_BT_ADDR, &firm)) {
 		/* Not found - just silently ignore this */
 		SCSC_TAG_DEBUG(BT_COMMON, "Bluetooth address not found\n");
 	} else if (firm && firm->size) {
