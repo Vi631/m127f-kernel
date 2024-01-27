@@ -20,6 +20,7 @@
 #include <linux/irqdomain.h>
 #include <linux/kvm_host.h>
 #include <linux/irqchip/arm-gic-v3.h>
+#include <linux/irqchip/arm-gic-v4.h>
 
 #include "vgic.h"
 

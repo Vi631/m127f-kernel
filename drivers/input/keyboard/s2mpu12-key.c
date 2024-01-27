@@ -38,7 +38,7 @@
 #if defined(CONFIG_DRV_SAMSUNG)
 #include <linux/sec_class.h>
 #else
-#include <linux/sec_sysfs.h>
+#include <linux/sec_secsysfs.h>
 #endif
 #include <linux/debug-snapshot.h>
 

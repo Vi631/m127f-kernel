@@ -145,7 +145,7 @@ static int try_to_freeze_tasks(bool user_only)
 
 		secdbg_exin_set_unfz(sys_state[system_state], -1);
 		if (IS_ENABLED(CONFIG_SEC_DEBUG_FAIL_TO_FREEZE_PANIC))
-			panic("fail to freeze tasks: %s", secdbg_exin_get_unfz());
+			panic("failed to freeze tasks");
 	} else {
 		pr_cont("(elapsed %d.%03d seconds) ", elapsed_msecs / 1000,
 			elapsed_msecs % 1000);

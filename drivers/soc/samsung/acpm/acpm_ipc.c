@@ -574,7 +574,7 @@ retry:
 				check_response(channel, cfg)) {
 			now = sched_clock();
 			if (timeout < now) {
-				if (retry_cnt > 5) {
+				if (retry_cnt > 50) {
 					timeout_flag = true;
 					break;
 				} else if (retry_cnt > 0) {
