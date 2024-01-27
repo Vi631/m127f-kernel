@@ -57,6 +57,8 @@ modules.builtin
 /vmlinuz
 /System.map
 /Module.markers
+/toolchains
+/driver/net/wireless/realtek/rtl8188eu
 
 #
 # RPM spec file (make rpm-pkg)
